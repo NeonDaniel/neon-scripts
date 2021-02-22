@@ -59,7 +59,9 @@ class TestCompileScripts(unittest.TestCase):
             log(logging.DEBUG, file)
             if str(file).endswith(".ncs"):
                 s = parser.load_script_file(os.path.join(script_dir, file))
-                self.assertIsInstance(s[0], list)
+                if isinstance(s, dict):
+                    raise TypeError("Script is dict not list")
+                self.assertIsInstance(s[0], list, f"script={s}")
 
                 for line in s[0]:
                     self.assertIsInstance(line, dict)
